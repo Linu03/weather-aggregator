@@ -34,8 +34,7 @@ class OpenMeteoAdapter(WeatherApiPort):
         )
         geo_data = geo_response.json()
 
-
-         if not geo_data.get("results"):
+        if not geo_data.get("results"):
             raise ValueError(f"City not found: {city}")
 
         lat = geo_data["results"][0]["latitude"]

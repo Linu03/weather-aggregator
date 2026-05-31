@@ -1,10 +1,10 @@
 from typing import List, Optional
-from domain.model import WeatherReading
 from abc import ABC, abstractmethod
+from domain.model import WeatherReading
 
 
 
-class WeatherAPIPort(ABC):
+class WeatherApiPort(ABC):
     @abstractmethod
     def get_weather(self, city:str) -> WeatherReading:
         pass
@@ -12,7 +12,7 @@ class WeatherAPIPort(ABC):
 class WeatherRepoPort(ABC):
 
     @abstractmethod
-    def save(self, reading: WeatherReading -> WeatherReading):
+    def save(self, reading: WeatherReading) -> WeatherReading:
         pass
     
     @abstractmethod
