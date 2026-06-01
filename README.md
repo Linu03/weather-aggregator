@@ -1,66 +1,71 @@
-# Weather Aggregator Backend
+# Weather Aggregator
 
-Backend pentru agregarea datelor meteorologice folosind **Hexagonal Architecture (Ports & Adapters)**.
+Monorepo: API FastAPI (hexagonal architecture), React UI, PostgreSQL.
 
-## Structura Proiectului
+## Project structure
 
 ```
 weather-aggregator/
-├── domain/              # Business Logic Layer (核心層)
-│   ├── model.py        # Entități de business pure
-│   ├── ports.py        # Interfețe abstracte (contracte)
-│   └── service.py      # Logica de business
-├── adapters/           # Infrastructure Layer
-│   ├── open_meteo.py   # Adapter pentru Open-Meteo API
-│   └── postgres_repo.py # Adapter pentru PostgreSQL
-├── api/                # Application Layer
-│   └── router.py       # FastAPI endpoints
-└── requirements.txt    # Dependențe Python
+├── backend/           # Python API
+│   ├── main.py
+│   ├── api/
+│   ├── domain/
+│   ├── adapters/
+│   └── requirements.txt
+├── frontend/          # React (Vite)
+├── tests/             # pytest, pact, behave
+├── docker-compose.yml
+├── init.sql
+├── pytest.ini
+└── behave.ini
 ```
 
-## Principii Hexagonal Architecture
+## Prerequisites
 
-### 1. **Domain Layer** (Centru)
-- **Nu depinde de nimic extern**
-- Conține logica de business pură
-- Definește interfețe (ports) pentru comunicare cu exterior
+- Python 3.11+
+- Node.js 18+
+- Docker (integration, service, and behave tests)
 
-### 2. **Adapters Layer** (Exterior)
-- Implementează ports-urile definite în domain
-- Gestionează detalii tehnice (HTTP, DB, etc.)
-- Poate fi înlocuit fără a afecta domain-ul
-
-### 3. **API Layer** (Entry Point)
-- Primește request-uri HTTP
-- Orchestrează domain service și adapters
-- Transformă date între format HTTP și domain models
-
-## Reguli Stricte
-
-✅ **Domain layer:**
-- NU importă FastAPI, httpx, psycopg2
-- NU conține detalii de infrastructură
-- Doar Python standard și abstractizări
-
-✅ **Adapters:**
-- Implementează interfețele din `domain/ports.py`
-- Conțin toată logica de integrare externă
-
-✅ **API:**
-- Injectează dependențele
-- Gestionează serializare/deserializare HTTP
-
-## Instalare
+## Backend
 
 ```bash
+docker compose up -d
+cd backend
 pip install -r requirements.txt
+# Copy backend/.env.example to backend/.env (or keep .env at repo root)
+uvicorn main:app --reload --port 8000
 ```
 
-## Următorii Pași
+API docs: http://localhost:8000/docs
 
-1. Implementare domain models
-2. Definire ports (interfețe)
-3. Implementare domain service
-4. Implementare adapters
-5. Implementare API endpoints
-6. Testing
+## Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+UI: http://localhost:5173 (proxies `/weather` to the API)
+
+```bash
+npm run test
+```
+
+## Tests (from repo root)
+
+```bash
+pip install -r backend/requirements.txt
+pytest tests/unit/ -v
+pytest tests/pact/consumer/ -v
+pytest tests/pact/provider/ -v
+pytest tests/integration/ -v
+pytest tests/service/ -v
+behave
+```
+
+## Hexagonal architecture
+
+- **domain/** — business logic, ports, no FastAPI/DB/HTTP imports
+- **adapters/** — Open-Meteo, PostgreSQL
+- **api/** — FastAPI routes and HTTP mapping

@@ -1,4 +1,11 @@
+import sys
+from pathlib import Path
+
 import respx
+
+_BACKEND = Path(__file__).resolve().parents[2] / "backend"
+if str(_BACKEND) not in sys.path:
+    sys.path.insert(0, str(_BACKEND))
 
 from tests.support.app_client import clear_test_client, create_test_client
 from tests.support.infrastructure import PostgresInfrastructure
