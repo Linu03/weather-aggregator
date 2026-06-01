@@ -1,0 +1,61 @@
+{
+  "consumer": {
+    "name": "weather-aggregator"
+  },
+  "provider": {
+    "name": "open-meteo"
+  },
+  "interactions": [
+    {
+      "description": "a geocoding request for a city name",
+      "providerState": "a city exists in geocoding",
+      "request": {
+        "method": "GET",
+        "path": "/v1/search",
+        "query": "name=Timisoara&count=1&language=en&format=json"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "results": [
+            {
+              "latitude": 45.75,
+              "longitude": 21.23,
+              "name": "Timisoara",
+              "country": "Romania"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "a current weather forecast request",
+      "providerState": "current weather is available for coordinates",
+      "request": {
+        "method": "GET",
+        "path": "/v1/forecast",
+        "query": "latitude=45.75&longitude=21.23&current_weather=true&wind_speed_unit=kmh"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": {
+          "current_weather": {
+            "temperature": 22.4,
+            "windspeed": 14.2,
+            "weathercode": 3,
+            "time": "2024-06-01T14:00"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

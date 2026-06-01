@@ -45,7 +45,7 @@ class PostgresWeatherRepo(WeatherRepoPort):
                     """
                     SELECT city, temperature, wind_speed, description, fetched_at
                     FROM weather_reading
-                    WHERE city = %s
+                    WHERE LOWER(city) = LOWER(%s)
                     ORDER BY fetched_at DESC
                     """,
                     (city,)
@@ -72,7 +72,7 @@ class PostgresWeatherRepo(WeatherRepoPort):
                     """
                     SELECT city, temperature, wind_speed, description, fetched_at
                     FROM weather_reading
-                    WHERE city = %s
+                    WHERE LOWER(city) = LOWER(%s)
                     ORDER BY fetched_at DESC
                     LIMIT 1
                     """,

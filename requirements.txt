@@ -14,3 +14,10 @@ psycopg2-binary==2.9.9
 # Environment variables
 python-dotenv==1.0.0
 
+# Testing
+pytest==8.3.3
+pact-python==1.7.0
+testcontainers[postgres]>=4.9.0
+respx>=0.21.0
+behave>=1.2.6
+
