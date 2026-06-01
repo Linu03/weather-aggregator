@@ -1,16 +1,33 @@
-# Python cache
+# Python
 __pycache__/
 *.pyc
-
-# Virtual Environment
+*.pyo
+.pytest_cache/
+.mypy_cache/
 venv/
 env/
+.venv/
 
-# Environment variables (credențiale DB)
+# Environment
 .env
+backend/.env
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+
+# Logs & Pact artifacts
+log/
+*.log
+pact-mock-service.log
 
 # IDE
 .vscode/
 .idea/
 
+# OS
+Thumbs.db
+.DS_Store
+
+# Challenge brief (local only)
 challenge-2-weather-aggregator.docx
