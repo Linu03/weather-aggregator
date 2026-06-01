@@ -66,6 +66,8 @@ jobs:
   backend-docker:
     name: Backend (integration, service, behave)
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

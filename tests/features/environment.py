@@ -3,7 +3,11 @@ from pathlib import Path
 
 import respx
 
-_BACKEND = Path(__file__).resolve().parents[2] / "backend"
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_BACKEND = _REPO_ROOT / "backend"
+
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 if str(_BACKEND) not in sys.path:
     sys.path.insert(0, str(_BACKEND))
 
